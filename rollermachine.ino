@@ -25,21 +25,12 @@ DIY Hacking
  }
  void loop()//Measure RPM
  {
-   Serial.print(revolutions);
-   Serial.print(" - ");
-   Serial.print(millis()-timeold);
-
    rpm = 1000/(millis() - timeold)*revolutions;
    timeold = millis();
    revolutions = 0;
    
-   Serial.print(" - ");
-   Serial.print(rpm);
-   Serial.print(" - ");
-   Serial.println(rpm/10.0);
-   
-   myservo.write((rpm/10.0)*180);
-   delay(500);
+   myservo.write(180-((rpm/10.0)*180));
+   delay(200);
  }
  
  void magnet_detect()//This function is called whenever a magnet/interrupt is detected by the arduino
