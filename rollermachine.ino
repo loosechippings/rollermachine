@@ -45,8 +45,4 @@ DIY Hacking
  void magnet_detect()//This function is called whenever a magnet/interrupt is detected by the arduino
  {
    revolutions++;
-   Serial.println("detect");
-   digitalWrite(13,HIGH);
-   delay(1000);
-   digitalWrite(13,LOW);
  }
