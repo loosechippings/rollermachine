@@ -15,7 +15,6 @@ DIY Hacking
  
  void setup()
  {
-   Serial.begin(9600);
    attachInterrupt(0, magnet_detect, FALLING);//Initialize the intterrupt pin (Arduino digital pin 2)
    revolutions = 1;
    rpm = 0;
@@ -25,12 +24,12 @@ DIY Hacking
  }
  void loop()//Measure RPM
  {
-   rpm = 1000/(millis() - timeold)*revolutions;
+   rpm = 1000/(millis() - timeold)*revolutions*60;
    timeold = millis();
    revolutions = 0;
    
-   myservo.write(180-((rpm/10.0)*180));
-   delay(200);
+   myservo.write(180-((rpm/60.0)*180));
+   delay(500);
  }
  
  void magnet_detect()//This function is called whenever a magnet/interrupt is detected by the arduino
