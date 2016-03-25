@@ -22,12 +22,15 @@ DIY Hacking
    pinMode(13, OUTPUT);  
    myservo.attach(9);
  }
+ 
  void loop()//Measure RPM
  {
+   detachInterrupt(0);
    rpm = 1000/(millis() - timeold)*revolutions*60;
-   timeold = millis();
    revolutions = 0;
+   attachInterrupt(0, magnet_detect, FALLING);//Initialize the intterrupt pin (Arduino digital pin 2)
    
+   timeold = millis();
    myservo.write(180-((rpm/60.0)*180));
    delay(500);
  }
