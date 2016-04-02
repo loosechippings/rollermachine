@@ -9,9 +9,12 @@ DIY Hacking
 
  Servo myservo;
  volatile byte revolutions;
- unsigned int rpm;
+ float rpm;
  unsigned long timeold;
  int pos=0;
+
+ // 30 because 2 magnets on the roller, 7.5 ratio between roller and wheel circ
+ float rpmcalc=30/7.5;
  
  void setup()
  {
@@ -25,14 +28,17 @@ DIY Hacking
  
  void loop()//Measure RPM
  {
-   detachInterrupt(0);
-   rpm = 1000/(millis() - timeold)*revolutions*60;
+   noInterrupts();
+   rpm = 1000/(millis() - timeold)*revolutions*rpmcalc;
    revolutions = 0;
-   attachInterrupt(0, magnet_detect, FALLING);//Initialize the intterrupt pin (Arduino digital pin 2)
+   interrupts();
    
    timeold = millis();
-   myservo.write(180-((rpm/60.0)*180));
-   delay(500);
+
+   // 222 revolutions of the wheel per minute is ~30kph
+   myservo.write(180-((rpm/222.0)*180));
+
+   delay(200);
  }
  
  void magnet_detect()//This function is called whenever a magnet/interrupt is detected by the arduino
