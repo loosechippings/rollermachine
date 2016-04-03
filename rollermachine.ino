@@ -13,8 +13,8 @@ DIY Hacking
  unsigned long timeold;
  int pos=0;
 
- // 30 because 2 magnets on the roller, 7.5 ratio between roller and wheel circ
- float rpmcalc=30/7.5;
+ // 15 because 4 magnets on the roller, 7.5 ratio between roller and wheel circ
+ float rpmcalc=15/7.5;
  
  void setup()
  {
