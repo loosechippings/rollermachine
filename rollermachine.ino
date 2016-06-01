@@ -21,25 +21,28 @@ DIY Hacking
  void setup()
  {
    attachInterrupt(0, magnet_detect, FALLING);//Initialize the intterrupt pin (Arduino digital pin 2)
-   attachInterrupt(1, button_detect, RISING);
    revolutions = 0;
    distance=0;
    rpm = 0;
    timeold = 0;
-   pinMode(12, OUTPUT);  
+   pinMode(13, OUTPUT);  
    myservo.attach(9);
    myservo.write(180);
+   Serial.begin(9600);
  }
  
  void loop()//Measure RPM and distance
  {
-   if (racing) { 
      noInterrupts();
      rpm = 1000/(millis() - timeold)*revolutions*rpmcalc;
-     distance+=revolutions;
+     distance=revolutions;
      revolutions = 0;
      interrupts();
-     
+
+     Serial.print(distance/7.5);
+     Serial.print(",");
+     Serial.println(millis()-timeold);
+
      timeold = millis();
   
      // use this to display rpm
@@ -47,23 +50,18 @@ DIY Hacking
      // myservo.write(180-((rpm/222.0)*180));
   
      // use this to display distance
-     myservo.write(180-((distance/227.0)*180));
+     //myservo.write(180-((distance/227.0)*180));
   
-     if (distance>=227) {
-      digitalWrite(12,HIGH);
-      racing=false;
-     }
-   }
+     //if (distance>=227) {
+     // digitalWrite(12,HIGH);
+     // racing=false;
+     //}
+
 
    delay(50);
  }
 
- void button_detect()
- {
-  racing=true;
-  distance=0;
-  digitalWrite(12,LOW);
- }
+
  
  void magnet_detect()//This function is called whenever a magnet/interrupt is detected by the arduino
  {
