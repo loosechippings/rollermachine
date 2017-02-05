@@ -17,6 +17,8 @@ DIY Hacking
 
  // 15 because 4 magnets on the roller, 7.5 ratio between roller and wheel circ
  float rpmcalc=15/7.5;
+ // 7.2 is ratio of roller circ to wheel circ, 2 is number of magenets on roller, 2.1 is circ of wheel in meters
+ float revolutionsToMeters=0.14/2/2.1
  
  void setup()
  {
@@ -39,7 +41,7 @@ DIY Hacking
      revolutions = 0;
      interrupts();
 
-     Serial.print(distance/7.5);
+     Serial.print(distance*revolutionsToMeters);
      Serial.print(",");
      Serial.println(millis()-timeold);
 
